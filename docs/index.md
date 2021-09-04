@@ -1,37 +1,46 @@
-## Welcome to GitHub Pages
+[![Issues](https://img.shields.io/github/issues/reoccurcat/reoccurcord-js.svg?colorB=5e03fc)](https://github.com/reoccurcat/reoccurcord-js/issues)
+[![Site Status](https://img.shields.io/website?down_color=lightgrey&down_message=offline&up_color=purple&up_message=online&url=https%3A%2F%2Frc.reoccur.tech)](https://rc.reoccur.tech)
+[![Stars](https://img.shields.io/github/stars/reoccurcat/reoccurcord-js?style=social)](https://github.com/reoccurcat/reoccurcord-js/stargazers)
+[![Discord](https://img.shields.io/discord/883472120083005441)](https://discord.gg/yATc4DJ69R)
+[![License](https://img.shields.io/github/license/reoccurcat/reoccurcord-js)](https://github.com/reoccurcat/reoccurcord-js/blob/main/LICENSE)
+[![Commits](https://img.shields.io/github/commit-activity/m/reoccurcat/reoccurcord-js)](https://github.com/reoccurcat/reoccurcord-js/commits/main)
+![Maintained](https://img.shields.io/maintenance/yes/2021)
 
-You can use the [editor on GitHub](https://github.com/reoccurcat/reoccurcord-js/edit/main/docs/index.md) to maintain and preview the content for your website in Markdown files.
+# reoccurcord javascript
+## Welcome to the official GitHub page of the reoccurcord bot!
+reoccurcord is a bot formerly made in python but now continued in javascript.
+If you find an issue, or have a feature suggestion, please let us know by opening an issue [here](https://github.com/reoccurcat/reoccurcord/issues).
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## Documentation
 
-### Markdown
+### Starting the bot
+#### Make sure you have [Python 3](https://www.python.org/downloads/) installed (and put in path, if you're on Windows 10)!!!
+1. Clone the repository: `git clone https://github.com/reoccurcat/reoccurcord-js.git` and go to step 2. An alternative is to download the ZIP file, unzip it, shift + right click in the `reoccurcord-js-main` folder, click on `Open Powershell window here`, and continue with step 3.
+2. `cd` to the repository folder: `cd reoccurcord-js`.
+3. Make sure all the dependencies are installed, Windows: `python -m pip install discord.py requests asyncio gitpython psutil datetime bs4 jishaku` (add `nudenet` and `tensorflow-cpu` if you want NSFW detection) Linux: `pip3 install discord.py requests asyncio gitpython psutil datetime bs4 jishaku` (add `nudenet` and `tensorflow-cpu` if you want NSFW detection). If there are any other errors with importing dependencies, install them as necessary.
+4. Run `python3 setup.py` for a configuration creator. If you don't do this, the bot will not run.
+5. Before starting, make sure the Server Members Intent is enabled in your bot settings in the Discord Developer Portal.
+6. To make sure the `mute` and `unmute` commands work, please make a role called `muted` in your server. The bot will not (yet) do this for you. After you create the role, make sure to create overrides for the channels you don't want a muted user speaking in.
+7. Run the main bot file: `python3 start.py` (or see the commands with `python3 start.py --help`).
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Features
 
-```markdown
-Syntax highlighted code block
+There are many features of the bot. These features include:
 
-# Header 1
-## Header 2
-### Header 3
+- VirusTotal file scanning
+- Message encryption
+- Moderation
+- Fun commands
+- Utility commands
+- Custom playing status that you can customize per instance
+- Self updating feature
+- Lots more commands, and more commands being added regularly!
 
-- Bulleted
-- List
+You can find the support server here:
 
-1. Numbered
-2. List
+[![Join our Discord server!](https://invidget.switchblade.xyz/yATc4DJ69R)](http://discord.gg/yATc4DJ69R)
 
-**Bold** and _Italic_ and `Code` text
+Like earlier said, if you have any feature requests or issues with the bot, open an issue [here](https://github.com/reoccurcat/reoccurcord-s/issues)!
+Enjoy the bot! We hope you have as much fun with it as we had programming it! :)
 
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/reoccurcat/reoccurcord-js/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+Made with discord.py v9.
