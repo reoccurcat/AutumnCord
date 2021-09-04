@@ -1,0 +1,36 @@
+{
+  "dependencies": {
+    "@discordjs/builders": "^0.6.0",
+    "@discordjs/rest": "^0.1.0-canary.0",
+    "discord-api-types": "^0.22.0",
+    "discord.js": "^13.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0"
+  },
+  "name": "reoccurcord",
+  "description": "reoccurcord continued in javascript",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reoccurcat/reoccurcord-js.git"
+  },
+  "keywords": [
+    "discord-bot",
+    "discord.js",
+    "discord"
+  ],
+  "author": "reoccurcat",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/reoccurcat/reoccurcord-js/issues"
+  },
+  "homepage": "https://github.com/reoccurcat/reoccurcord-js#readme"
+}
