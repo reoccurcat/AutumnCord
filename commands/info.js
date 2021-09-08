@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -16,14 +17,88 @@ module.exports = {
 	async execute(interaction) {
 		if (interaction.options.getSubcommand() === 'user') {
 			const user = interaction.options.getUser('target');
-
+			const member = interaction.options.getMember('target');
 			if (user) {
-				await interaction.reply(`Username: ${user.username}\nID: ${user.id}`);
+				let creationTime = parseInt((new Date(`${user.createdAt}`).getTime()/1000).toFixed(0))
+				let joinTime = parseInt((new Date(`${member.joinedAt}`).getTime()/1000).toFixed(0))
+				let userDisplayName = ""
+				if (String(member.nickname) == "undefined") {
+					userDisplayName = "No Nickname"
+				} else if (String(member.nickname) == "null") {
+					userDisplayName = "No Nickname"
+				} else {
+					userDisplayName = member.nickname
+				}
+				const userEmbed = new MessageEmbed()
+					.setColor('#5a1da1')
+					.setAuthor(`${user.username}#${user.discriminator}`, user.avatarURL({ dynamic: true }))
+					.setDescription(`User ID: \`${user.id}\`\nDisplay Name: \`${userDisplayName}\`\nGuild Join Date: <t:${joinTime}:R> on <t:${joinTime}:F>\nCreation Date: <t:${creationTime}:R> on <t:${creationTime}:F>`)
+					.setFooter(`Requested by ${interaction.user.username}`, interaction.user.avatarURL({ dynamic: true }))
+					.setThumbnail(user.avatarURL({ dynamic: true }))
+				await interaction.reply({ embeds: [userEmbed] });
 			} else {
-				await interaction.reply(`Your username: ${interaction.user.username}\nYour ID: ${interaction.user.id}`);
-			}
+				let creationTime = parseInt((new Date(`${interaction.user.createdAt}`).getTime()/1000).toFixed(0))
+				let joinTime = parseInt((new Date(`${interaction.member.joinedAt}`).getTime()/1000).toFixed(0))
+				let userDisplayName = ""
+				if (String(interaction.member.nickname) == "undefined") {
+					userDisplayName = "No Nickname"
+				} else if (String(interaction.member.nickname) == "null") {
+					userDisplayName = "No Nickname"
+				} else {
+					userDisplayName = member.nickname
+				}
+				const userEmbed = new MessageEmbed()
+					.setColor('#5a1da1')
+					.setAuthor(`${interaction.user.username}#${interaction.user.discriminator}`, interaction.user.avatarURL({ dynamic: true }))
+					.setDescription(`User ID: \`${interaction.user.id}\`\nDisplay Name: \`${userDisplayName}\`\nGuild Join Date: <t:${joinTime}:R> on <t:${joinTime}:F>\nCreation Date: <t:${creationTime}:R> on <t:${creationTime}:F>`)
+					.setFooter(`Requested by ${interaction.user.username}`, interaction.user.avatarURL({ dynamic: true }))
+					.setThumbnail(interaction.user.avatarURL({ dynamic: true }))
+				await interaction.reply({ embeds: [userEmbed] });			}
 		} else if (interaction.options.getSubcommand() === 'server') {
-			await interaction.reply(`Server name: ${interaction.guild.name}\nTotal members: ${interaction.guild.memberCount}`);
+			let creationTime = parseInt((new Date(`${interaction.guild.createdAt}`).getTime()/1000).toFixed(0))
+			let guildDescription = ""
+			if (String(interaction.guild.description) == "null") {guildDescription = "No description set"} else {guildDescription = interaction.guild.description}
+			const serverEmbed = new MessageEmbed()
+				.setColor('#5a1da1')
+				.setAuthor(`${interaction.guild.name} (${interaction.guild.id})`, interaction.guild.iconURL({ dynamic: true }))
+				.setDescription(`Owner: <@!${interaction.guild.ownerId}> (${interaction.user.username}#${interaction.user.discriminator})\n${interaction.guild.memberCount} Members; ${interaction.guild.roles.cache.map(r => r).length} Roles\nCreation Date: <t:${creationTime}:R> on <t:${creationTime}:F>\nDescription:\n\`\`\`\n${guildDescription}\n\`\`\``)
+				.setFooter(`Requested by ${interaction.user.username}`, interaction.user.avatarURL({ dynamic: true }))
+				.setThumbnail(interaction.guild.iconURL({ dynamic: true }))
+			if (interaction.guild.splashURL()) {
+				const row = new MessageActionRow()
+				.addComponents(
+					new MessageButton()
+						.setCustomId('primary')
+						.setLabel('Get Invite Splash')
+						.setStyle('PRIMARY'),
+				);
+				const disabledRow = new MessageActionRow()
+				.addComponents(
+					new MessageButton()
+						.setCustomId('primary')
+						.setLabel('Get Invite Splash')
+						.setStyle('PRIMARY')
+						.setDisabled(true),
+				);
+				const imageEmbed = new MessageEmbed()
+					.setColor('#5a1da1')
+					.setAuthor(`${interaction.guild.name}'s Invite Splash`, interaction.guild.iconURL({ dynamic: true }))
+					.setFooter(`Requested by ${interaction.user.username}`, interaction.user.avatarURL({ dynamic: true }))
+					.setDescription(`[PNG](${interaction.guild.splashURL({ format: 'png' })}) | [JPG](${interaction.guild.splashURL({ format: 'jpg' })})`)
+					.setImage(interaction.guild.splashURL({ size: 1024 }))
+				await interaction.reply({ embeds: [serverEmbed], components: [row] });
+				const filter = i => i.customId === 'primary';
+				const collector = interaction.channel.createMessageComponentCollector({ filter, time: 60000 });
+				collector.on('collect', async i => {
+					if (i.customId === 'primary') {
+						await interaction.editReply({ embeds: [serverEmbed], components: [disabledRow] })
+						await i.reply({ embeds: [imageEmbed] });	
+					}
+				});
+				collector.on('end', collected => console.log(`Collected ${collected.size} items`));
+			} else {
+				await interaction.reply({ embeds: [serverEmbed] });
+			}
 		}
 	},
 };

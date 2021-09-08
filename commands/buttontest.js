@@ -10,7 +10,7 @@ const row = new MessageActionRow()
     );
 
 const embed = new MessageEmbed()
-    .setColor('#0099ff')
+    .setColor('#5a1da1')
     .setTitle('Here is an embed!')
     .setURL('https://rc.reoccur.tech')
     .setDescription('The link goes to the bot website lol');
