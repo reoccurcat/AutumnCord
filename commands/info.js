@@ -45,7 +45,7 @@ module.exports = {
 				} else if (String(interaction.member.nickname) == "null") {
 					userDisplayName = "No Nickname"
 				} else {
-					userDisplayName = member.nickname
+					userDisplayName = interaction.member.nickname
 				}
 				const userEmbed = new MessageEmbed()
 					.setColor('#5a1da1')
