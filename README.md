@@ -22,7 +22,7 @@ Coming soon!
 
 You can find the support server here:
 
-[![Join our Discord server!](https://invidget.switchblade.xyz/yATc4DJ69R)](http://discord.gg/yATc4DJ69R)
+[![Join our Discord server!](https://canary.discord.com/api/guilds/883472120083005441/widget.png?style=banner2)](http://discord.gg/yATc4DJ69R)
 
 Like earlier said, if you have any feature requests or issues with the bot, open an issue [here](https://github.com/reoccurcat/reoccurcord-s/issues)!
 Enjoy the bot! We hope you have as much fun with it as we had programming it! :)
