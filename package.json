@@ -8,7 +8,7 @@
   "devDependencies": {
     "eslint": "^7.32.0"
   },
-  "name": "reoccurcord",
+  "name": "autumncord",
   "description": "reoccurcord continued in javascript",
   "version": "1.0.0",
   "main": "index.js",
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/reoccurcat/reoccurcord-js.git"
+    "url": "git+https://github.com/reoccurtech/autumncord.git"
   },
   "keywords": [
     "discord-bot",
@@ -30,7 +30,7 @@
   "author": "reoccurcat",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/reoccurcat/reoccurcord-js/issues"
+    "url": "https://github.com/reoccurtech/autumncord/issues"
   },
-  "homepage": "https://github.com/reoccurcat/reoccurcord-js#readme"
+  "homepage": "https://github.com/reoccurtech/autumncord#readme"
 }
