@@ -1,5 +1,5 @@
 [![Issues](https://img.shields.io/github/issues/reoccurdevs/autumncord.svg?colorB=5e03fc)](https://github.com/reoccurdevs/autumncord/issues)
-[![Site Status](https://img.shields.io/website?down_color=lightgrey&down_message=offline&up_color=purple&up_message=online&url=https%3A%2F%2Frc.reoccur.tech)](https://rc.reoccur.tech)
+[![Site Status](https://img.shields.io/website?down_color=lightgrey&down_message=offline&up_color=purple&up_message=online&url=https%3A%2F%2Fautumn.reoccur.tech)](https://autumn.reoccur.tech)
 [![Stars](https://img.shields.io/github/stars/reoccurdevs/autumncord?style=social)](https://github.com/reoccurdevs/autumncord/stargazers)
 [![Discord](https://canary.discord.com/api/guilds/892934149881610240/widget.png?style=shield)](https://discord.gg/hkUa3gpj8T)
 [![License](https://img.shields.io/github/license/reoccurdevs/autumncord)](https://github.com/reoccurdevs/autumncord/blob/main/LICENSE)
