@@ -6,10 +6,12 @@
 [![Commits](https://img.shields.io/github/commit-activity/m/reoccurdevs/autumncord)](https://github.com/reoccurdevs/autumncord/commits/main)
 ![Maintained](https://img.shields.io/maintenance/yes/2021)
 
-# autumncord
+# autumncord (OLD
 ## Welcome to the official GitHub page of the autumncord bot!
 autumncord is a bot formerly made in python (reoccurcord) but now continued in javascript.
 If you find an issue, or have a feature suggestion, please let us know by opening an issue [here](https://github.com/reoccurdevs/autumncord/issues).
+
+# PLEASE NOW SEE [AutumnCord](https://github.com/reoccurdevs/autumncord/)
 
 ## Documentation
 
