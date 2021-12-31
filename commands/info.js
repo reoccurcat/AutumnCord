@@ -91,8 +91,8 @@ module.exports = {
 				const collector = interaction.channel.createMessageComponentCollector({ filter, time: 60000 });
 				collector.on('collect', async i => {
 					if (i.customId === 'primary') {
+						await i.reply({ embeds: [imageEmbed] });
 						await interaction.editReply({ embeds: [serverEmbed], components: [disabledRow] })
-						await i.reply({ embeds: [imageEmbed] });	
 					}
 				});
 				collector.on('end', collected => console.log(`Collected ${collected.size} items`));
