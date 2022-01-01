@@ -31,9 +31,8 @@ module.exports = {
 				}
 				const userEmbed = new MessageEmbed()
 					.setColor('#5a1da1')
-					.setAuthor(`${user.username}#${user.discriminator}`, user.avatarURL({ dynamic: true }))
+					.setAuthor({name:`${user.username}#${user.discriminator}`, iconURL:user.avatarURL({ dynamic: true })})
 					.setDescription(`User ID: \`${user.id}\`\nDisplay Name: \`${userDisplayName}\`\nGuild Join Date: <t:${joinTime}:R> on <t:${joinTime}:F>\nCreation Date: <t:${creationTime}:R> on <t:${creationTime}:F>`)
-					.setFooter(`Requested by ${interaction.user.username}`, interaction.user.avatarURL({ dynamic: true }))
 					.setThumbnail(user.avatarURL({ dynamic: true }))
 				await interaction.reply({ embeds: [userEmbed] });
 			} else {
@@ -49,9 +48,8 @@ module.exports = {
 				}
 				const userEmbed = new MessageEmbed()
 					.setColor('#5a1da1')
-					.setAuthor(`${interaction.user.username}#${interaction.user.discriminator}`, interaction.user.avatarURL({ dynamic: true }))
+					.setAuthor({name:`${interaction.user.username}#${interaction.user.discriminator}`, iconURL:interaction.user.avatarURL({ dynamic: true })})
 					.setDescription(`User ID: \`${interaction.user.id}\`\nDisplay Name: \`${userDisplayName}\`\nGuild Join Date: <t:${joinTime}:R> on <t:${joinTime}:F>\nCreation Date: <t:${creationTime}:R> on <t:${creationTime}:F>`)
-					.setFooter(`Requested by ${interaction.user.username}`, interaction.user.avatarURL({ dynamic: true }))
 					.setThumbnail(interaction.user.avatarURL({ dynamic: true }))
 				await interaction.reply({ embeds: [userEmbed] });			}
 		} else if (interaction.options.getSubcommand() === 'server') {
@@ -60,9 +58,8 @@ module.exports = {
 			if (String(interaction.guild.description) == "null") {guildDescription = "No description set"} else {guildDescription = interaction.guild.description}
 			const serverEmbed = new MessageEmbed()
 				.setColor('#5a1da1')
-				.setAuthor(`${interaction.guild.name} (${interaction.guild.id})`, interaction.guild.iconURL({ dynamic: true }))
+				.setAuthor({name:`${interaction.guild.name} (${interaction.guild.id})`, iconURL:interaction.guild.iconURL({ dynamic: true })})
 				.setDescription(`Owner: <@!${interaction.guild.ownerId}> (${interaction.user.username}#${interaction.user.discriminator})\n${interaction.guild.memberCount} Members; ${interaction.guild.roles.cache.map(r => r).length} Roles\nCreation Date: <t:${creationTime}:R> on <t:${creationTime}:F>\nDescription:\n\`\`\`\n${guildDescription}\n\`\`\``)
-				.setFooter(`Requested by ${interaction.user.username}`, interaction.user.avatarURL({ dynamic: true }))
 				.setThumbnail(interaction.guild.iconURL({ dynamic: true }))
 			if (interaction.guild.splashURL()) {
 				const row = new MessageActionRow()
@@ -82,8 +79,7 @@ module.exports = {
 				);
 				const imageEmbed = new MessageEmbed()
 					.setColor('#5a1da1')
-					.setAuthor(`${interaction.guild.name}'s Invite Splash`, interaction.guild.iconURL({ dynamic: true }))
-					.setFooter(`Requested by ${interaction.user.username}`, interaction.user.avatarURL({ dynamic: true }))
+					.setAuthor({name:`${interaction.guild.name}'s Invite Splash`, iconURL:interaction.guild.iconURL({ dynamic: true })})
 					.setDescription(`[PNG](${interaction.guild.splashURL({ format: 'png' })}) | [JPG](${interaction.guild.splashURL({ format: 'jpg' })})`)
 					.setImage(interaction.guild.splashURL({ size: 1024 }))
 				await interaction.reply({ embeds: [serverEmbed], components: [row] });

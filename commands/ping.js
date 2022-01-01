@@ -9,9 +9,9 @@ module.exports = {
 		const pingEmbed = new MessageEmbed()
 			.setColor('#5a1da1')
 			.setTitle('Ping')
-			.setAuthor(interaction.client.user.username, interaction.client.user.avatarURL())
+			.setAuthor({name:interaction.client.user.username, iconURL:interaction.client.user.avatarURL()})
 			.setDescription(` 🏓 Pong!\n 🖥 API Latency is ${Math.round(interaction.client.ws.ping)}ms`)
-			.setFooter(`Requested by ${interaction.user.username}`, interaction.user.avatarURL({ dynamic: true }))
+			.setFooter({name:`Requested by ${interaction.user.username}`, iconURL:interaction.user.avatarURL({ dynamic: true })})
 		await interaction.reply({ embeds: [pingEmbed] });
 	},
 };

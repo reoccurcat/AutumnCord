@@ -14,9 +14,8 @@ module.exports = {
         const encryptedString = cryptr.encrypt(`${string}`);
         const embed = new MessageEmbed()
             .setColor('#5a1da1')
-            .setAuthor('Message Encryptor')
+            .setAuthor({name:'Message Encryptor'})
             .setDescription(`Your encrypted message is as follows:\n\`\`\`txt\n${encryptedString}\n\`\`\`\nYour encrypted message's KEY is as follows:\n\`\`\`txt\n${key}\n\`\`\``)
-            .setFooter(`Requested by ${interaction.user.username}`, interaction.user.avatarURL({ dynamic: true }))
         await interaction.reply({ embeds: [embed], ephemeral: true});
 	},
 };

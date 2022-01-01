@@ -15,9 +15,8 @@ module.exports = {
         const decryptedString = cryptr.decrypt(`${string}`);
         const embed = new MessageEmbed()
             .setColor('#5a1da1')
-            .setAuthor('Message Decryptor')
+            .setAuthor({name:'Message Decryptor'})
             .setDescription(`Your decrypted message is as follows:\n\n\`\`\`txt\n${decryptedString}\n\`\`\``)
-            .setFooter(`Requested by ${interaction.user.username}`, interaction.user.avatarURL({ dynamic: true }))
         await interaction.reply({ embeds: [embed], ephemeral: true });
 	},
 };

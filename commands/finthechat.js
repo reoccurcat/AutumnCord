@@ -13,9 +13,9 @@ module.exports = {
         let respects = 0
         const embed = new MessageEmbed()
             .setColor('#5a1da1')
-            .setAuthor('F in the chat')
+            .setAuthor({name:'F in the Chat'})
             .setDescription(`<@${interaction.user.id}> would like you to pay respects to:\n> ${string}`)
-            .setFooter('Press the F button to pay respects.')
+            .setFooter({name:'Press the F button to pay respects.'})
         const row = new MessageActionRow()
         .addComponents(
             new MessageButton()
