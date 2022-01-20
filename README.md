@@ -4,7 +4,7 @@
 [![Discord](https://canary.discord.com/api/guilds/892934149881610240/widget.png?style=shield)](https://discord.gg/hkUa3gpj8T)
 [![License](https://img.shields.io/github/license/reoccurdevs/autumncord)](https://github.com/reoccurdevs/autumncord/blob/main/LICENSE)
 [![Commits](https://img.shields.io/github/commit-activity/m/reoccurdevs/autumncord)](https://github.com/reoccurdevs/autumncord/commits/main)
-![Maintained](https://img.shields.io/maintenance/yes/2021)
+![Maintained](https://img.shields.io/maintenance/yes/2022)
 [![CodeQL](https://github.com/reoccurdevs/autumncord-js/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/reoccurdevs/autumncord-js/actions/workflows/codeql-analysis.yml)
 
 # autumncord
