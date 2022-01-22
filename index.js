@@ -26,8 +26,7 @@ for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 	// Set a new item in the Collection
 	// With the key as the command name and the value as the exported module
-	if (file.startsWith("slash_")) client.commands.set(command.data.name, command)
-	else client.commands.set(command.name, command);
+	client.commands.set(command.data.name, command)
 }
 
 client.on('messageCreate', message => {
