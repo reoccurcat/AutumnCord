@@ -1,7 +1,7 @@
 {
   "dependencies": {
+    "@discordjs/rest": "^0.2.0-canary.0",
     "@discordjs/voice": "^0.7.5",
-    "@sapphire/framework": "^2.3.0",
     "axios": "^0.24.0",
     "cryptojs": "^2.5.3",
     "cryptr": "^6.0.2",
@@ -17,23 +17,22 @@
   "name": "autumncord",
   "description": "reoccurcord continued in javascript",
   "version": "0.0.1",
-  "main": "src/index.js",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/reoccurtech/autumncord.git"
+    "url": "git+https://github.com/reoccurcat/AutumnCord.git"
   },
   "keywords": [
     "discord-bot",
     "discord.js",
     "discord"
   ],
-  "author": "reoccurtech",
+  "author": "reoccurcat",
   "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/reoccurtech/autumncord/issues"

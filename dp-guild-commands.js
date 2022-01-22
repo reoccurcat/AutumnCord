@@ -7,8 +7,10 @@ const commands = [];
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
+	if (file.includes("slash")) {
 	const command = require(`./commands/${file}`);
 	commands.push(command.data.toJSON());
+	}
 }
 
 const rest = new REST({ version: '9' }).setToken(token);

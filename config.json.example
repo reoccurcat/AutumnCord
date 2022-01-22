@@ -1,6 +1,7 @@
 {
 	"token": "", 
     "clientId": "",
+    "prefix": "",
     "guildId": "",
     "twitchClient": "",
     "twitchSecret": ""
