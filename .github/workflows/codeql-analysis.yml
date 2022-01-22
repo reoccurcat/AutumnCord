@@ -9,7 +9,7 @@
 # the `language` matrix defined below to confirm you have the correct set of
 # supported CodeQL languages.
 #
-name: "CodeQL"
+name: "AutumnActions | CodeQL"
 
 on:
   push:
@@ -73,10 +73,10 @@ jobs:
         git config --local user.name 'AutumnCheck'
         git config --local user.email reoccurcat@gmail.com
         git fetch
-        git checkout experimental
-        git merge --allow-unrelated-histories -s ours origin/main -m "(auto) merging commits from experimental to main"
+        git checkout testing
+        git merge --allow-unrelated-histories -s ours origin/main -m "(auto) merging commits from testing to main"
         git checkout main
-        git merge experimental -m "(auto) merging commits from experimental to main"
+        git merge experimental -m "(auto) merging commits from testing to main"
         git push
           
   
