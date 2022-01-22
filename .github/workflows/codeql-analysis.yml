@@ -76,7 +76,7 @@ jobs:
         git checkout testing
         git merge --allow-unrelated-histories -s ours origin/main -m "(auto) merging commits from testing to main"
         git checkout main
-        git merge experimental -m "(auto) merging commits from testing to main"
+        git merge testing -m "(auto) merging commits from testing to main"
         git push
           
   
