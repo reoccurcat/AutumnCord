@@ -43,7 +43,7 @@ module.exports = {
         }
 		else if (interaction.options.getSubcommand() === 'say') { 
 			const args = interaction.options.getString('content');
-			await interaction.channel.send(args)
+			await interaction.channel.send(`${args}`)
 			await interaction.reply({content: "Success.", ephemeral: true})
         }
 		else if (interaction.options.getSubcommand() === 'eval') {
