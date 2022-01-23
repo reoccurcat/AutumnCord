@@ -55,6 +55,5 @@ module.exports = {
             } else {
             interaction.followUp(`${respects} people have paid their respects.`)
         }});
-
     }
 };
