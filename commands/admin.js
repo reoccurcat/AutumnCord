@@ -1,9 +1,10 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { REST } = require('@discordjs/rest');
-const { token, clientId, ownerId, guildId } = require('../config.json');
+const { token, clientId, ownerId } = require('../config.json');
 const fs = require('fs');
 const { MessageEmbed } = require('discord.js');
 const rest = new REST({ version: '9' }).setToken(token);
+const { Routes } = require('discord-api-types/v9');
 //const clone = require('git-clone');
 
 const clean = async (text) => {
@@ -36,7 +37,11 @@ module.exports = {
                 .setName('eval')
                 .setDescription('Evaluates an expression')
 				.addStringOption(option => option.setName('visibility').setDescription('Should the bot hide the output?').setRequired(true).addChoice('Hide output', 'hide').addChoice('Show output', 'show'))
-                .addStringOption(option => option.setName('string').setDescription('What the bot should evaluate').setRequired(true))),
+                .addStringOption(option => option.setName('string').setDescription('What the bot should evaluate').setRequired(true)))
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('initcmds')
+                .setDescription('Initializes per-guild commands')),
 	async execute(interaction) {
 		if (interaction.member.user.id === ownerId) return await interaction.reply({content: "You are not authorized to do this.", ephemeral: true})
 		if (interaction.options.getSubcommand() === 'update') { 
@@ -86,6 +91,28 @@ module.exports = {
 					else await interaction.followUp({embeds: [embed], ephemeral: true});
 				}
 			  }
-		}
+		} else if (interaction.options.getSubcommand() === 'initcmds') { 
+			interaction.client.guilds.cache.forEach(guild => {
+				const commands = [];
+				const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
+				for (const file of commandFiles) {
+					const command = require(`../commands/${file}`);
+					commands.push(command.data.toJSON());
+				}
+				(async () => {
+					try {
+						console.log('Started refreshing application (/) commands.');
+
+						await rest.put(
+							Routes.applicationGuildCommands(clientId, guild.id),
+							{ body: commands },
+						);
+						console.log('Successfully reloaded application (/) commands.');
+					} catch (error) {
+						console.error(error);
+					}
+				})();
+			})
+        }
 	},
 };

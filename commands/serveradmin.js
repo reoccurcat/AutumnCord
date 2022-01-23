@@ -50,26 +50,24 @@ module.exports = {
 				.setTitle("Resetting...")
 				.setDescription(`The permission reset is in progress...`)
 			collector.on('collect', async i => {
-				if (i.customId === customId) {
+				if (String(i.customId) === String(customId)) {
 					await interaction.editReply({components: [disabledRow], embeds: [embed2]})
-					const bruh = await interaction.client.application.commands.fetch().then(async commands => {
-						for (var command of commands.toJSON()) {
-							console.log("Made it thus far")
-							if (command.name === "kick") {
-								const permissions = [
-									{
-										id: '932292759916777523',
-										type: 'ROLE',
-										permission: true,
-									},
-								];								
-								const command = await interaction.client.application.commands.fetch(command.id)
-								await command.permissions.add({ permissions });
-								await interaction.followUp("Done.")
-							}
+					const commands = await interaction.guild.commands.fetch()
+					for (var command of commands.toJSON()) {
+						console.log("Made it thus far")
+						if (command.name === "kick") {
+							const permissions = [
+								{
+									id: '932292759916777523',
+									type: 'ROLE',
+									permission: true,
+								},
+							];								
+							const cmd = await interaction.guild.commands.fetch(command.id)
+							await cmd.permissions.add({ permissions });
+							await interaction.followUp("Done.")
 						}
-					})
-					console.log(bruh)
+					}
 				}
 				else await interaction.editReply({components: [disabledRow], embeds: [embed]})
 			});
