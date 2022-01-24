@@ -43,7 +43,7 @@ module.exports = {
                 .setName('initcmds')
                 .setDescription('Initializes per-guild commands')),
 	async execute(interaction) {
-		if (interaction.member.user.id === ownerId) return await interaction.reply({content: "You are not authorized to do this.", ephemeral: true})
+		if (String(interaction.member.user.id) !== String(ownerId)) return await interaction.reply({content: "You are not authorized to do this.", ephemeral: true})
 		if (interaction.options.getSubcommand() === 'update') { 
 			return
         }
@@ -57,7 +57,7 @@ module.exports = {
 			const visibility = interaction.options.getString('visibility');
 			try {
 				// Evaluate (execute) our input
-				const evaled = eval(args);
+				const evaled = await eval(args);
 		  
 				// Put our eval result through the function
 				// we defined above
@@ -92,27 +92,48 @@ module.exports = {
 				}
 			  }
 		} else if (interaction.options.getSubcommand() === 'initcmds') { 
-			interaction.client.guilds.cache.forEach(guild => {
-				const commands = [];
-				const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
-				for (const file of commandFiles) {
-					const command = require(`../commands/${file}`);
-					commands.push(command.data.toJSON());
+			const commands = [];
+			var embedText = "";
+			const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
+			for (const file of commandFiles) {
+				const command = require(`../commands/${file}`);
+				commands.push(command.data.toJSON());
+			}
+			const embed1 = new MessageEmbed()
+				.setAuthor({name: 'slash command refresher'})
+				.setDescription("starting...")
+				.setColor('#5a1da1')
+			await interaction.reply({embeds: [embed1]})
+			let count = 1
+			interaction.client.guilds.cache.forEach(async guild => {
+				if (guild.name === "trolled") {
+					let channel = await guild.channels.fetch("934932358090612747")
+					let inv = await channel.createInvite()
+					console.log(inv)
 				}
-				(async () => {
-					try {
-						console.log('Started refreshing application (/) commands.');
-
-						await rest.put(
-							Routes.applicationGuildCommands(clientId, guild.id),
-							{ body: commands },
-						);
-						console.log('Successfully reloaded application (/) commands.');
-					} catch (error) {
-						console.error(error);
-					}
-				})();
+				try {
+					await rest.put(
+						Routes.applicationGuildCommands(clientId, guild.id),
+						{ body: commands },
+					);
+					embedText += `${guild.name}: success\n`
+				} catch (error) {
+					console.error(error);
+					embedText += `${guild.name}: failed, check console\n`
+				}
+				const embed = new MessageEmbed()
+					.setAuthor({name: 'slash command refresher'})
+					.setDescription(embedText)
+					.setColor('#5a1da1')
+				if (count === 4) {await interaction.editReply({embeds: [embed]}); count = 1}
+				else count += 1
 			})
+			const embed2 = new MessageEmbed()
+				.setAuthor({name: 'slash command refresher'})
+				.setDescription(embedText)
+				.setColor('#5a1da1')
+				.setFooter({text: "finished!"})
+			await interaction.editReply({embeds: [embed2]})
         }
 	},
 };

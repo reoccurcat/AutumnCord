@@ -7,10 +7,10 @@ module.exports = {
 	data: new SlashCommandBuilder()
         .setName('kick')
         .setDescription('Dummy kick command')
-        .addUserOption(option => option.setName('target').setDescription('The user'))
-        .setDefaultPermission(false),
+        .addUserOption(option => option.setName('target').setDescription('The user').setRequired(true)),
 	async execute(interaction) {
         const user = interaction.options.getUser('target');
-        await interaction.reply(`You wanted to kick ${user.name}#${user.discriminator}`)
+        throw "This is a test error" 
+        await interaction.reply(`You wanted to kick ${user.username}#${user.discriminator}`)
     }
 }
