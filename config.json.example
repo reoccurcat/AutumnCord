@@ -2,6 +2,7 @@
 	"token": "", 
     "clientId": "",
     "guildId": "",
+    "ownerId": "",
     "twitchClient": "",
     "twitchSecret": ""
 }

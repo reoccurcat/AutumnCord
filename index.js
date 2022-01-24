@@ -1,7 +1,7 @@
 // Require the necessary discord.js classes
 const fs = require('fs');
-const { Collection, Client, Intents } = require('discord.js');
-const { token } = require('./config.json');
+const { Collection, Client, Intents, MessageEmbed } = require('discord.js');
+const { token, ownerId } = require('./config.json');
 
 // Create a new client instance
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
@@ -44,7 +44,13 @@ client.on('interactionCreate', async interaction => {
 		await command.execute(interaction);
 	} catch (error) {
 		console.error(error);
-		await interaction.reply({ content: 'There was an error while executing this command!\nError:\n```'+`fix\n${error}\n`+'```', ephemeral: true });
+		const embed = new MessageEmbed()
+			.setAuthor({name: 'command error report'})
+			.setDescription(`there was an error when a command was run.\ncommand name: \`${interaction.commandName}\`\ncommand initiator: \`${interaction.user.username}#${interaction.user.discriminator} (${interaction.user.id})\`\nerror:\n\`\`\`js\n${error}\n\`\`\``)
+			.setColor('#FF0000')
+		await interaction.reply({content: "There was an error running this command. The error has been sent to the bot developer.", ephemeral: true});	
+		const user = await interaction.client.users.fetch(ownerId)
+		await user.send({embeds: [embed]})
 	}
 });
 

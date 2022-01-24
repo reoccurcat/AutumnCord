@@ -26,7 +26,7 @@ module.exports = {
             let customIdDisable = Math.floor(Math.random() * 10000)
             let url
             var fetchedurl
-            const filter = i => i.customId === String(customIdImage) || i.customId === String(customIdDisable)
+            const filter = i => i.customId === String(customIdImage) || i.customId === String(customIdDisable) && i.user.id === interaction.user.id
             const collector = interaction.channel.createMessageComponentCollector({ filter, time: 30000 });
             if (text !== null) {url = `https://cataas.com/cat/${text}`} else {url = 'https://cataas.com/cat'}
             await axios.get(url, { responseType: 'arraybuffer' }).then((data) => fetchedurl = data)
@@ -79,7 +79,7 @@ module.exports = {
         let customIdImage = Math.floor(Math.random() * 10000)
         let customIdDisable = Math.floor(Math.random() * 10000)
         let url 
-        const filter = i => i.customId === String(customIdImage) || i.customId === String(customIdDisable)
+        const filter = i => i.customId === String(customIdImage) || i.customId === String(customIdDisable) && i.user.id === interaction.user.id
         const collector = interaction.channel.createMessageComponentCollector({ filter, time: 30000 });
         if (text !== null) {url = `https://dog.ceo/api/breed/${text}/images/random`} else {url = 'https://dog.ceo/api/breeds/image/random'}
         var fetchedurl

@@ -85,7 +85,7 @@ module.exports = {
 					.setDescription(`[PNG](${interaction.guild.splashURL({ format: 'png' })}) | [JPG](${interaction.guild.splashURL({ format: 'jpg' })})`)
 					.setImage(interaction.guild.splashURL({ size: 1024 }))
 				await interaction.reply({ embeds: [serverEmbed], components: [row] });
-				const filter = i => i.customId === 'primary';
+				const filter = i => i.customId === 'primary' && i.user.id === interaction.user.id;
 				const collector = interaction.channel.createMessageComponentCollector({ filter, time: 60000 });
 				collector.on('collect', async i => {
 					if (i.customId === 'primary') {
