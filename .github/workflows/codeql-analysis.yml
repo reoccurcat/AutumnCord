@@ -66,8 +66,8 @@ jobs:
       
     - name: Merge to main
       run: |
-        git config --local user.name 'reoccurcat'
-        git config --local user.email reoccurcat@gmail.com
+        git config --local user.name 'github-actions'
+        git config --local user.email github-actions@github.com
         git fetch
         git checkout testing
         git merge --allow-unrelated-histories -s ours origin/main -m "(auto) merging commits from testing to main"
