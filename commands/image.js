@@ -20,8 +20,8 @@ module.exports = {
                 .addStringOption(option => option.setName('breed').setDescription('The breed of a dog to get; example: husky'))),
 	async execute(interaction) {
         if (interaction.options.getSubcommand() === 'cat') { 
+            await interaction.deferReply()
             const text = interaction.options.getString('tag');
-            await interaction.reply(({content: "Loading..."}))
             let customIdImage = Math.floor(Math.random() * 10000)
             let customIdDisable = Math.floor(Math.random() * 10000)
             let url
@@ -74,8 +74,8 @@ module.exports = {
             await interaction.editReply({ embeds: [embed], components: [catdisabled] })
         });
     } else if (interaction.options.getSubcommand() === 'dog') { 
+        await interaction.deferReply()
         const text = interaction.options.getString('breed');
-        let msg = await interaction.reply(({content: "Loading..."}))
         let customIdImage = Math.floor(Math.random() * 10000)
         let customIdDisable = Math.floor(Math.random() * 10000)
         let url 

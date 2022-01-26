@@ -7,7 +7,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
         .setName('finthechat')
         .setDescription('Get people to pay respects to something.')
-        .addStringOption(option => option.setName('input').setDescription('What people should pay respects to')),
+        .addStringOption(option => option.setName('input').setDescription('What people should pay respects to').setRequired(true)),
 	async execute(interaction) {
         let customId = Math.floor(Math.random() * 10000)
         const alreadyreacted = [] 
@@ -17,7 +17,7 @@ module.exports = {
             .setColor('#5a1da1')
             .setAuthor({name:'F in the Chat'})
             .setDescription(`<@${interaction.user.id}> would like you to pay respects to:\n> ${string}`)
-            .setFooter({name:'Press the F button to pay respects.'})
+            .setFooter({text:'Press the F button to pay respects.'})
         const row = new MessageActionRow()
         .addComponents(
             new MessageButton()
