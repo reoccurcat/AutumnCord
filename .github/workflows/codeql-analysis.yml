@@ -45,11 +45,6 @@ jobs:
         # Prefix the list here with "+" to use these queries and those in the config file.
         # queries: ./path/to/local/query, your-org/your-repo/queries@main
 
-    # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
-    # If this step fails, then you should remove it and run the build manually (see below)
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v1
-
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl
 
@@ -85,7 +80,7 @@ jobs:
       uses: "marvinpinto/action-automatic-releases@latest"
       if: "startsWith(github.event.head_commit.message, 'release:')"
       with:
-        repo_token: "${{ secrets.AUTUMNACTIONS_TOKEN }}"
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
         draft: true
         title: AutumnCord Release Draft on ${{ env.NOW }}
         automatic_release_tag: ${{ env.NOW_SHORT }}
@@ -94,7 +89,7 @@ jobs:
       uses: "marvinpinto/action-automatic-releases@latest"
       if: "startsWith(github.event.head_commit.message, 'Release:')"
       with:
-        repo_token: "${{ secrets.AUTUMNACTIONS_TOKEN }}"
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
         draft: true
         title: AutumnCord Release Draft on ${{ env.NOW }}
         automatic_release_tag: ${{ env.NOW_SHORT }}
