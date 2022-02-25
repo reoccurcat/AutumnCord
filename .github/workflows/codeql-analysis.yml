@@ -76,7 +76,7 @@ jobs:
         echo "NOW=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
         echo "NOW_SHORT=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
         
-    - name: Publish draft release (check 1)
+    - name: Publish draft release
       uses: "marvinpinto/action-automatic-releases@latest"
       if: "startsWith(github.event.head_commit.message, 'release:')"
       with:
@@ -85,12 +85,4 @@ jobs:
         title: AutumnCord Release Draft on ${{ env.NOW }}
         automatic_release_tag: ${{ env.NOW_SHORT }}
         
-    - name: Publish draft release (check 2)
-      uses: "marvinpinto/action-automatic-releases@latest"
-      if: "startsWith(github.event.head_commit.message, 'Release:')"
-      with:
-        repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        draft: true
-        title: AutumnCord Release Draft on ${{ env.NOW }}
-        automatic_release_tag: ${{ env.NOW_SHORT }}
 
