@@ -40,8 +40,15 @@ module.exports = {
                 .addStringOption(option => option.setName('string').setDescription('What the bot should evaluate').setRequired(true)))
         .addSubcommand(subcommand =>
             subcommand
-                .setName('initcmds')
-                .setDescription('Initializes per-guild commands')),
+                .setName('refreshgcmds')
+                .setDescription('Refreshes global slash commands')
+				.addBooleanOption(option => option.setName('wipe').setDescription('Select whether to delete all slash commands').setRequired(true)))
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('refreshscmds')
+                .setDescription('Refreshes server slash commands')
+				.addStringOption(option => option.setName('guildid').setDescription('Enter the server ID').setRequired(true))
+				.addBooleanOption(option => option.setName('wipe').setDescription('Select whether to delete all slash commands').setRequired(true))),
 	async execute(interaction) {
 		if (String(interaction.member.user.id) !== String(ownerId)) return await interaction.reply({content: "You are not authorized to do this.", ephemeral: true})
 		if (interaction.options.getSubcommand() === 'update') { 
@@ -91,49 +98,49 @@ module.exports = {
 					else await interaction.followUp({embeds: [embed], ephemeral: true});
 				}
 			  }
-		} else if (interaction.options.getSubcommand() === 'initcmds') { 
+		} else if (interaction.options.getSubcommand() === 'refreshscmds') { 
+			const number = interaction.options.getString('guildid');
+			const boolean = interaction.options.getBoolean('wipe');
 			const commands = [];
-			var embedText = "";
-			const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
-			for (const file of commandFiles) {
-				const command = require(`../commands/${file}`);
-				commands.push(command.data.toJSON());
+			if (boolean === false) {
+				const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
+				for (const file of commandFiles) {
+					const command = require(`../commands/${file}`);
+					commands.push(command.data.toJSON());
+				}
 			}
-			const embed1 = new MessageEmbed()
-				.setAuthor({name: 'slash command refresher'})
-				.setDescription("starting...")
-				.setColor('#5a1da1')
-			await interaction.reply({embeds: [embed1]})
-			let count = 1
 			interaction.client.guilds.cache.forEach(async guild => {
-				if (guild.name === "trolled") {
-					let channel = await guild.channels.fetch("934932358090612747")
-					let inv = await channel.createInvite()
-					console.log(inv)
+				if (String(guild.id) === String(number)) {
+					try {
+						await rest.put(
+							Routes.applicationGuildCommands(clientId, guild.id),
+							{ body: commands },
+						);
+						return await interaction.reply({content: `Successfully refreshed ${guild.name}'s slash commands.`, ephemeral: true})
+					} catch (error) {
+						console.log(error)
+					}
 				}
-				try {
-					await rest.put(
-						Routes.applicationGuildCommands(clientId, guild.id),
-						{ body: commands },
-					);
-					embedText += `${guild.name}: success\n`
-				} catch (error) {
-					console.error(error);
-					embedText += `${guild.name}: failed, check console\n`
-				}
-				const embed = new MessageEmbed()
-					.setAuthor({name: 'slash command refresher'})
-					.setDescription(embedText)
-					.setColor('#5a1da1')
-				if (count === 4) {await interaction.editReply({embeds: [embed]}); count = 1}
-				else count += 1
 			})
-			const embed2 = new MessageEmbed()
-				.setAuthor({name: 'slash command refresher'})
-				.setDescription(embedText)
-				.setColor('#5a1da1')
-				.setFooter({text: "finished!"})
-			await interaction.editReply({embeds: [embed2]})
+        } else if (interaction.options.getSubcommand() === 'refreshgcmds') { 
+			const boolean = interaction.options.getBoolean('wipe');
+			const commands = [];
+			if (boolean === false) {
+				const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
+				for (const file of commandFiles) {
+					const command = require(`../commands/${file}`);
+					commands.push(command.data.toJSON());
+				}
+			}
+			try {
+				await rest.put(
+					Routes.applicationCommands(clientId),
+					{ body: commands },
+				);
+				return await interaction.reply({content: `Successfully refreshed the global slash commands.`, ephemeral: true})
+			} catch (error) {
+				console.log(error)
+			}
         }
 	},
 };

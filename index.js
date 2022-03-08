@@ -46,7 +46,7 @@ client.on('interactionCreate', async interaction => {
 		console.error(error);
 		const embed = new MessageEmbed()
 			.setAuthor({name: 'command error report'})
-			.setDescription(`there was an error when a command was run.\ncommand name: \`${interaction.commandName}\`\ncommand initiator: \`${interaction.user.username}#${interaction.user.discriminator} (${interaction.user.id})\`\nerror:\n\`\`\`js\n${error}\n\`\`\``)
+			.setDescription(`there was an error when a command was run.\ncommand name: \`${interaction.commandName}\`\ncommand initiator: \`${interaction.user.username}#${interaction.user.discriminator} (${interaction.user.id})\`\n\`\`\`js\n${error}\n\`\`\``)
 			.setColor('#FF0000')
 		await interaction.reply({content: "There was an error running this command. The error has been sent to the bot developer.", ephemeral: true});	
 		const user = await interaction.client.users.fetch(ownerId)
