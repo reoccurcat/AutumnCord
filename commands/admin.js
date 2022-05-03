@@ -8,8 +8,8 @@ const { Routes } = require('discord-api-types/v9');
 const { Modal, TextInputComponent, showModal } = require('discord-modals') // Now we extract the showModal method
 //const clone = require('git-clone');
 
-const embedModal = new Modal() // We create a Modal
-	.setCustomId('embedModal')
+const embedEditModal = new Modal() // We create a Modal
+	.setCustomId('embedEditModal')
 	.setTitle('embed builder')
 	.addComponents(
 	new TextInputComponent() // We create a Text Input Component
@@ -28,6 +28,43 @@ const embedModal = new Modal() // We create a Modal
 		.setMaxLength(18)
 		.setPlaceholder('write the message ID here')
 		.setRequired(true), // If it's required or not\
+	new TextInputComponent() // We create a Text Input Component
+		.setCustomId('title')
+		.setLabel('the embed\'s title')
+		.setStyle('SHORT') //IMPORTANT: Text Input Component Style can be 'SHORT' or 'LONG'
+		.setMinLength(1)
+		.setMaxLength(64)
+		.setPlaceholder('write the embed title here')
+		.setRequired(true),
+	new TextInputComponent() // We create a Text Input Component
+		.setCustomId('description')
+		.setLabel('the embed\'s description')
+		.setStyle('LONG') //IMPORTANT: Text Input Component Style can be 'SHORT' or 'LONG'
+		.setMinLength(1)
+		.setMaxLength(3072)
+		.setPlaceholder('write the embed description here')
+		.setRequired(true), // If it's required or not
+	new TextInputComponent() // We create a Text Input Component
+		.setCustomId('banner')
+		.setLabel('the embed\'s banner')
+		.setStyle('SHORT') //IMPORTANT: Text Input Component Style can be 'SHORT' or 'LONG'
+		.setMinLength(1)
+		.setMaxLength(64)
+		.setPlaceholder('add a banner image here if you want')
+);
+
+const embedModal = new Modal() // We create a Modal
+	.setCustomId('embedModal')
+	.setTitle('embed builder')
+	.addComponents(
+	new TextInputComponent() // We create a Text Input Component
+		.setCustomId('channelId')
+		.setLabel('the channel\'s ID')
+		.setStyle('SHORT') //IMPORTANT: Text Input Component Style can be 'SHORT' or 'LONG'
+		.setMinLength(18)
+		.setMaxLength(18)
+		.setPlaceholder('write the channel ID here')
+		.setRequired(true), // If it's required or not
 	new TextInputComponent() // We create a Text Input Component
 		.setCustomId('title')
 		.setLabel('the embed\'s title')
@@ -89,6 +126,10 @@ module.exports = {
                 .setName('refreshgcmds')
                 .setDescription('Refreshes global slash commands')
 				.addBooleanOption(option => option.setName('wipe').setDescription('Select whether to delete all slash commands').setRequired(true)))
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('embededit')
+                .setDescription('Edits a bot-sent embed'))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('embedbuild')
@@ -191,7 +232,12 @@ module.exports = {
 			} catch (error) {
 				console.log(error)
 			}
-        } else if (interaction.options.getSubcommand() === 'embedbuild') {
+        } else if (interaction.options.getSubcommand() === 'embededit') {
+			showModal(embedEditModal, {
+				client: interaction.client, // Client to show the Modal through the Discord API.
+				interaction: interaction // Show the modal with interaction data.
+			})
+		} else if (interaction.options.getSubcommand() === 'embedbuild') {
 			showModal(embedModal, {
 				client: interaction.client, // Client to show the Modal through the Discord API.
 				interaction: interaction // Show the modal with interaction data.
