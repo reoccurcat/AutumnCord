@@ -76,19 +76,21 @@ client.on('modalSubmit', async (modal) => {
 		await message1.edit({embeds: [embed]})
 		await modal.followUp('edited.', {ephemeral: true})
 	} else if (modal.customId === 'embedModal') {
+		const role = global.role
 		const title = modal.getTextInputValue('title')
 		const description = modal.getTextInputValue('description')
 		const channelId = modal.getTextInputValue('channelId')
-		const messageId = modal.getTextInputValue('messageId')
 		const banner = modal.getTextInputValue('banner')
 	  	const embed = new MessageEmbed()
 			.setAuthor({name: modal.guild.name, iconURL: modal.guild.iconURL()})
 			.setTitle(title)
 			.setDescription(description)
+			.setColor('PURPLE')
 		if (banner !== undefined) embed.setImage(banner)
 		const channel1 = await modal.guild.channels.fetch(String(channelId))
 		await modal.deferReply({ephemeral: true})
-		await channel1.send({embeds: [embed]})
+		if (global.role !== null) await channel1.send({content: `<@&${role.id}>`, embeds: [embed]})
+		else await channel1.send({embeds: [embed]})
 		await modal.followUp("sent.", {ephemeral: true})
 	}
 });

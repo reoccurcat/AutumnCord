@@ -133,7 +133,8 @@ module.exports = {
         .addSubcommand(subcommand =>
             subcommand
                 .setName('embedbuild')
-                .setDescription('Builds an embed'))
+                .setDescription('Builds an embed')
+				.addRoleOption(option => option.setName('mention').setDescription('the optional role to mention')))
 		.addSubcommand(subcommand =>
             subcommand
                 .setName('refreshscmds')
@@ -238,6 +239,7 @@ module.exports = {
 				interaction: interaction // Show the modal with interaction data.
 			})
 		} else if (interaction.options.getSubcommand() === 'embedbuild') {
+			global.role = interaction.options.getRole('mention');
 			showModal(embedModal, {
 				client: interaction.client, // Client to show the Modal through the Discord API.
 				interaction: interaction // Show the modal with interaction data.
