@@ -83,12 +83,15 @@ client.on('modalSubmit', async (modal) => {
 		const channelId = modal.getTextInputValue('channelId')
 		const banner = modal.getTextInputValue('banner')
 		const extension = global.extension
-	  	const embed = new MessageEmbed()
-			.setTitle(title)
-			.setDescription(description)
-			.setColor('PURPLE')
+	  	const embed = new MessageEmbed().setColor('PURPLE')
 		if (banner !== undefined) embed.setImage(banner)
-		if (extension !== true) embed.setAuthor({name: modal.guild.name, iconURL: modal.guild.iconURL()})
+		if (extension !== true) {
+			embed.setAuthor({name: modal.guild.name, iconURL: modal.guild.iconURL()})
+			embed.setTitle(title)
+			embed.setDescription(description)
+		} else {
+			embed.addFields({ name: title, value: description })
+		}
 		const channel1 = await modal.guild.channels.fetch(String(channelId))
 		await modal.deferReply({ephemeral: true})
 		if (global.role !== null) await channel1.send({content: `<@&${role.id}>`, embeds: [embed]})
