@@ -70,7 +70,13 @@ client.on('modalSubmit', async (modal) => {
 			.setTitle(title)
 			.setDescription(description)
 		if (banner !== undefined) embed.setImage(banner)
-		if (extension !== false) embed.setAuthor({name: modal.guild.name, iconURL: modal.guild.iconURL()})
+		if (extension !== true) {
+			embed.setAuthor({name: modal.guild.name, iconURL: modal.guild.iconURL()})
+			embed.setTitle(title)
+			embed.setDescription(description)
+		} else {
+			embed.addFields({ name: title, value: description })
+		}
 		const channel1 = await modal.guild.channels.fetch(String(channelId))
 		let message1 = await channel1.messages.fetch(String(messageId))
 		await modal.deferReply({ephemeral: true})
