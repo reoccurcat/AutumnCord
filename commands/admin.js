@@ -129,12 +129,14 @@ module.exports = {
         .addSubcommand(subcommand =>
             subcommand
                 .setName('embededit')
-                .setDescription('Edits a bot-sent embed'))
+                .setDescription('Edits a bot-sent embed')
+				.addBooleanOption(option => option.setName('extension').setDescription('no author field (to extend a previous embed)').setRequired(true)))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('embedbuild')
                 .setDescription('Builds an embed')
-				.addRoleOption(option => option.setName('mention').setDescription('the optional role to mention')))
+				.addBooleanOption(option => option.setName('extension').setDescription('no author field (to extend a previous embed)').setRequired(true))
+				.addRoleOption(option => option.setName('mention').setDescription('the role to mention')))
 		.addSubcommand(subcommand =>
             subcommand
                 .setName('refreshscmds')
@@ -234,12 +236,14 @@ module.exports = {
 				console.log(error)
 			}
         } else if (interaction.options.getSubcommand() === 'embededit') {
+			global.extension = interaction.options.getBoolean('extension');
 			showModal(embedEditModal, {
 				client: interaction.client, // Client to show the Modal through the Discord API.
 				interaction: interaction // Show the modal with interaction data.
 			})
 		} else if (interaction.options.getSubcommand() === 'embedbuild') {
 			global.role = interaction.options.getRole('mention');
+			global.extension = interaction.options.getBoolean('extension');
 			showModal(embedModal, {
 				client: interaction.client, // Client to show the Modal through the Discord API.
 				interaction: interaction // Show the modal with interaction data.
