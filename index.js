@@ -88,7 +88,7 @@ client.on('modalSubmit', async (modal) => {
 			.setDescription(description)
 			.setColor('PURPLE')
 		if (banner !== undefined) embed.setImage(banner)
-		if (extension !== false) embed.setAuthor({name: modal.guild.name, iconURL: modal.guild.iconURL()})
+		if (extension !== true) embed.setAuthor({name: modal.guild.name, iconURL: modal.guild.iconURL()})
 		const channel1 = await modal.guild.channels.fetch(String(channelId))
 		await modal.deferReply({ephemeral: true})
 		if (global.role !== null) await channel1.send({content: `<@&${role.id}>`, embeds: [embed]})
