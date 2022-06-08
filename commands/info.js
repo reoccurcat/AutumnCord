@@ -1,3 +1,5 @@
+// noinspection JSCheckFunctionSignatures
+
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
 
@@ -24,9 +26,9 @@ module.exports = {
 				let creationTime = parseInt((new Date(`${user.createdAt}`).getTime()/1000).toFixed(0))
 				let joinTime = parseInt((new Date(`${member.joinedAt}`).getTime()/1000).toFixed(0))
 				let userDisplayName = ""
-				if (String(member.nickname) == "undefined") {
+				if (String(member.nickname) === "undefined") {
 					userDisplayName = "No Nickname"
-				} else if (String(member.nickname) == "null") {
+				} else if (String(member.nickname) === "null") {
 					userDisplayName = "No Nickname"
 				} else {
 					userDisplayName = member.nickname
@@ -41,9 +43,9 @@ module.exports = {
 				let creationTime = parseInt((new Date(`${interaction.user.createdAt}`).getTime()/1000).toFixed(0))
 				let joinTime = parseInt((new Date(`${interaction.member.joinedAt}`).getTime()/1000).toFixed(0))
 				let userDisplayName = ""
-				if (String(interaction.member.nickname) == "undefined") {
+				if (String(interaction.member.nickname) === "undefined") {
 					userDisplayName = "No Nickname"
-				} else if (String(interaction.member.nickname) == "null") {
+				} else if (String(interaction.member.nickname) === "null") {
 					userDisplayName = "No Nickname"
 				} else {
 					userDisplayName = interaction.member.nickname
@@ -57,7 +59,7 @@ module.exports = {
 		} else if (interaction.options.getSubcommand() === 'server') {
 			let creationTime = parseInt((new Date(`${interaction.guild.createdAt}`).getTime()/1000).toFixed(0))
 			let guildDescription = ""
-			if (String(interaction.guild.description) == "null") {guildDescription = "No description set"} else {guildDescription = interaction.guild.description}
+			if (String(interaction.guild.description) === "null") {guildDescription = "No description set"} else {guildDescription = interaction.guild.description}
 			const serverEmbed = new MessageEmbed()
 				.setColor('#5a1da1')
 				.setAuthor({name:`${interaction.guild.name} (${interaction.guild.id})`, iconURL:interaction.guild.iconURL({ dynamic: true })})

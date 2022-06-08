@@ -1,3 +1,5 @@
+// noinspection JSCheckFunctionSignatures
+
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
 
@@ -48,9 +50,9 @@ module.exports = {
             }
         });
         collector.on('end', collected => {
-            console.log(`Collected ${collected.size} items`),
+            console.log(`Collected ${collected.size} items`)
             interaction.editReply({ embeds: [embed], components: [disabledRow] })
-            if (respects == 1) {
+            if (respects === 1) {
                 interaction.followUp(`${respects} person has paid their respects.`)
             } else {
             interaction.followUp(`${respects} people have paid their respects.`)

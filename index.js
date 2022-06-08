@@ -1,10 +1,10 @@
 // Require the necessary discord.js classes
+// noinspection JSUnresolvedFunction
+
 const fs = require('fs');
 const { Collection, Client, Intents, MessageEmbed } = require('discord.js');
 const discordModals = require('discord-modals')
 const { token, ownerId } = require('./config.json');
-const { channel } = require('diagnostics_channel');
-const { message } = require('prompt');
 
 // Create a new client instance
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
@@ -33,31 +33,34 @@ for (const file of commandFiles) {
 	client.commands.set(command.data.name, command)
 }
 
-client.on('messageCreate', message => {
-	if (message.author.id === client.id) return;
-});
+// client.on('messageCreate', message => {
+//	if (message.author.id === client.id) return;
+// });
 
 client.on('interactionCreate', async interaction => {
 	if (!interaction.isCommand()) return;
 
+	// noinspection JSUnresolvedVariable
 	const command = client.commands.get(interaction.commandName);
 
 	if (!command) return;
-
 	try {
 		await command.execute(interaction);
 	} catch (error) {
 		console.error(error);
+		// noinspection JSUnresolvedVariable
 		const embed = new MessageEmbed()
 			.setAuthor({name: 'command error report'})
 			.setDescription(`there was an error when a command was run.\ncommand name: \`${interaction.commandName}\`\ncommand initiator: \`${interaction.user.username}#${interaction.user.discriminator} (${interaction.user.id})\`\n\`\`\`js\n${error}\n\`\`\``)
 			.setColor('#FF0000')
-		await interaction.reply({content: "There was an error running this command. The error has been sent to the bot developer.", ephemeral: true});	
+		// noinspection JSUnresolvedFunction
+		await interaction.reply({content: "There was an error running this command. The error has been sent to the bot developer.", ephemeral: true});
 		const user = await interaction.client.users.fetch(ownerId)
 		await user.send({embeds: [embed]})
 	}
 });
 
+// noinspection JSUnresolvedVariable
 client.on('modalSubmit', async (modal) => {
 	if (modal.customId === 'embedEditModal') {
 		const title = modal.getTextInputValue('title')
@@ -65,29 +68,35 @@ client.on('modalSubmit', async (modal) => {
 		const channelId = modal.getTextInputValue('channelId')
 		const messageId = modal.getTextInputValue('messageId')
 		const banner = modal.getTextInputValue('banner')
+		// noinspection JSUnresolvedVariable
 		const extension = global.extension
 	  	const embed = new MessageEmbed()
 			.setTitle(title)
 			.setDescription(description)
 		if (banner !== undefined) embed.setImage(banner)
+		// noinspection JSCheckFunctionSignatures
 		if (extension !== true) {
 			embed.setAuthor({name: modal.guild.name, iconURL: modal.guild.iconURL()})
 			embed.setTitle(title)
 			embed.setDescription(description)
 		} else {
+			// noinspection JSCheckFunctionSignatures
 			embed.addFields({ name: title, value: description })
 		}
 		const channel1 = await modal.guild.channels.fetch(String(channelId))
 		let message1 = await channel1.messages.fetch(String(messageId))
 		await modal.deferReply({ephemeral: true})
 		await message1.edit({embeds: [embed]})
-		await modal.followUp('edited.', {ephemeral: true})
+		// noinspection JSCheckFunctionSignatures
+		await modal.followUp({text:"edited.", ephemeral: true})
 	} else if (modal.customId === 'embedModal') {
+		// noinspection JSUnresolvedVariable
 		const role = global.role
 		const title = modal.getTextInputValue('title')
 		const description = modal.getTextInputValue('description')
 		const channelId = modal.getTextInputValue('channelId')
 		const banner = modal.getTextInputValue('banner')
+		// noinspection JSUnresolvedVariable
 		const extension = global.extension
 	  	const embed = new MessageEmbed().setColor('PURPLE')
 		if (banner !== undefined) embed.setImage(banner)
@@ -96,13 +105,16 @@ client.on('modalSubmit', async (modal) => {
 			embed.setTitle(title)
 			embed.setDescription(description)
 		} else {
+			// noinspection JSCheckFunctionSignatures
 			embed.addFields({ name: title, value: description })
 		}
 		const channel1 = await modal.guild.channels.fetch(String(channelId))
 		await modal.deferReply({ephemeral: true})
+		// noinspection JSUnresolvedVariable
 		if (global.role !== null) await channel1.send({content: `<@&${role.id}>`, embeds: [embed]})
 		else await channel1.send({embeds: [embed]})
-		await modal.followUp("sent.", {ephemeral: true})
+		// noinspection JSCheckFunctionSignatures
+		await modal.followUp({text: "sent.", ephemeral: true})
 	}
 });
 

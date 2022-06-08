@@ -3,7 +3,8 @@ const { REST } = require('@discordjs/rest');
 const { token, clientId, ownerId } = require('../config.json');
 const fs = require('fs');
 const { MessageEmbed } = require('discord.js');
-const rest = new REST({ version: '9' }).setToken(token);
+// noinspection JSClosureCompilerSyntax
+const rest = new REST().setToken(token);
 const { Routes } = require('discord-api-types/v9');
 const { Modal, TextInputComponent, showModal } = require('discord-modals') // Now we extract the showModal method
 //const clone = require('git-clone');
@@ -91,17 +92,18 @@ const embedModal = new Modal() // We create a Modal
 );
 
 const clean = async (text) => {
-    if (text && text.constructor.name == "Promise")
-      text = text;
+	let text1
+    if (text && text.constructor.name === "Promise")
+		text1 = text;
     
-    if (typeof text !== "string")
-      text = require("util").inspect(text, { depth: 1 });
+    if (typeof text1 !== "string")
+      text1 = require("util").inspect(text, { depth: 1 });
     
-    text = text
+    text1 = text1
       .replace(/`/g, "`" + String.fromCharCode(8203))
       .replace(/@/g, "@" + String.fromCharCode(8203));
     
-    return text;
+    return text1;
 }
 
 module.exports = {
@@ -119,7 +121,8 @@ module.exports = {
             subcommand
                 .setName('eval')
                 .setDescription('Evaluates an expression')
-				.addStringOption(option => option.setName('visibility').setDescription('Should the bot hide the output?').setRequired(true).addChoice('Hide output', 'hide').addChoice('Show output', 'show'))
+				.addStringOption(option => option.setName('visibility').setDescription('Should the bot hide the output?').setRequired(true).addChoices(
+					{name: 'Hide output', value: 'hide'}, {name:'Show output', value: 'show'}))
                 .addStringOption(option => option.setName('string').setDescription('What the bot should evaluate').setRequired(true)))
         .addSubcommand(subcommand =>
             subcommand
@@ -146,7 +149,7 @@ module.exports = {
 	async execute(interaction) {
 		if (String(interaction.member.user.id) !== String(ownerId)) return await interaction.reply({content: "You are not authorized to do this.", ephemeral: true})
 		if (interaction.options.getSubcommand() === 'update') { 
-			return
+
         }
 		else if (interaction.options.getSubcommand() === 'say') { 
 			const args = interaction.options.getString('content');
@@ -192,7 +195,7 @@ module.exports = {
 					else await interaction.followUp({embeds: [embed], ephemeral: true});
 				}
 			  }
-		} else if (interaction.options.getSubcommand() === 'refreshscmds') { 
+		} else if (interaction.options.getSubcommand() === 'refreshscmds') {
 			const number = interaction.options.getString('guildid');
 			const boolean = interaction.options.getBoolean('wipe');
 			const commands = [];
@@ -203,7 +206,8 @@ module.exports = {
 					commands.push(command.data.toJSON());
 				}
 			}
-			interaction.client.guilds.cache.forEach(async guild => {
+			// noinspection JSVoidFunctionReturnValueUsed,ES6MissingAwait
+			interaction.client.guilds.cache.forEach( async guild => {
 				if (String(guild.id) === String(number)) {
 					try {
 						await rest.put(
@@ -237,14 +241,14 @@ module.exports = {
 			}
         } else if (interaction.options.getSubcommand() === 'embededit') {
 			global.extension = interaction.options.getBoolean('extension');
-			showModal(embedEditModal, {
+			await showModal(embedEditModal, {
 				client: interaction.client, // Client to show the Modal through the Discord API.
 				interaction: interaction // Show the modal with interaction data.
 			})
 		} else if (interaction.options.getSubcommand() === 'embedbuild') {
 			global.role = interaction.options.getRole('mention');
 			global.extension = interaction.options.getBoolean('extension');
-			showModal(embedModal, {
+			await showModal(embedModal, {
 				client: interaction.client, // Client to show the Modal through the Discord API.
 				interaction: interaction // Show the modal with interaction data.
 			})

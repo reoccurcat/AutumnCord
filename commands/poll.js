@@ -58,25 +58,25 @@ module.exports = {
             .setDescription(`<@!${interaction.user.id}> is asking:\n\n**${questionString}**\n\nOptions:\n${finalStr}`)
             .setFooter({text:"React to vote!"})
         const message = await interaction.reply({ embeds: [pollEmbed], fetchReply: true });
-        message.react("1️⃣")
-        message.react("2️⃣")
+        await message.react("1️⃣")
+        await message.react("2️⃣")
         if (optionNum >= 3) {
-            message.react("3️⃣")
+            await message.react("3️⃣")
         }
         if (optionNum >= 4) {
-            message.react("4️⃣")
+            await message.react("4️⃣")
         }
         if (optionNum >= 5) {
-            message.react("5️⃣")
+            await message.react("5️⃣")
         }
         if (optionNum >= 6) {
-            message.react("6️⃣")
+            await message.react("6️⃣")
         }
         if (optionNum >= 7) {
-            message.react("7️⃣")
+            await message.react("7️⃣")
         }
         if (optionNum >= 8) {
-            message.react("8️⃣")
+            await message.react("8️⃣")
         }
     }
 }

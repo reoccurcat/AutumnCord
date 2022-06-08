@@ -1,3 +1,5 @@
+// noinspection JSCheckFunctionSignatures
+
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed, MessageActionRow, MessageAttachment, MessageButton } = require('discord.js');
 const axios = require('axios');
@@ -19,13 +21,14 @@ module.exports = {
                 .setDescription('Gets a dog picture')
                 .addStringOption(option => option.setName('breed').setDescription('The breed of a dog to get; example: husky'))),
 	async execute(interaction) {
+        let fetchedurl
+        let customIdImage = Math.floor(Math.random() * 10000)
         if (interaction.options.getSubcommand() === 'cat') { 
             await interaction.deferReply()
             const text = interaction.options.getString('tag');
             let customIdImage = Math.floor(Math.random() * 10000)
             let customIdDisable = Math.floor(Math.random() * 10000)
             let url
-            var fetchedurl
             const filter = i => i.customId === String(customIdImage) || i.customId === String(customIdDisable) && i.user.id === interaction.user.id
             const collector = interaction.channel.createMessageComponentCollector({ filter, time: 30000 });
             if (text !== null) {url = `https://cataas.com/cat/${text}`} else {url = 'https://cataas.com/cat'}
@@ -60,7 +63,7 @@ module.exports = {
             );
             await interaction.editReply({content: "Meow!", embeds: [embed], files: [attachment], components: [catimage]})
             collector.on('collect', async i => {
-            i.deferUpdate();
+            await i.deferUpdate();
             if (i.customId === String(customIdImage)) { 
                 if (text !== null) {url = `https://cataas.com/cat/${text}`} else {url = 'https://cataas.com/cat'}
                 fetchedurl = await (await axios.get(url, { responseType: 'arraybuffer' })).data
@@ -76,13 +79,12 @@ module.exports = {
     } else if (interaction.options.getSubcommand() === 'dog') { 
         await interaction.deferReply()
         const text = interaction.options.getString('breed');
-        let customIdImage = Math.floor(Math.random() * 10000)
         let customIdDisable = Math.floor(Math.random() * 10000)
         let url 
         const filter = i => i.customId === String(customIdImage) || i.customId === String(customIdDisable) && i.user.id === interaction.user.id
         const collector = interaction.channel.createMessageComponentCollector({ filter, time: 30000 });
         if (text !== null) {url = `https://dog.ceo/api/breed/${text}/images/random`} else {url = 'https://dog.ceo/api/breeds/image/random'}
-        var fetchedurl
+
         await axios.get(url, { responseType: 'arraybuffer' }).then((data) => fetchedurl = JSON.parse(data.data))
         let attachment = new MessageAttachment(fetchedurl.message, 'dog.png');
         let embed = new MessageEmbed()
@@ -114,7 +116,7 @@ module.exports = {
         );
         await interaction.editReply({content: "Woof!", embeds: [embed], files: [attachment], components: [dogimage]})
         collector.on('collect', async i => {
-          i.deferUpdate();
+          await i.deferUpdate();
           if (i.customId === String(customIdImage)) { 
             if (text !== null) {url = `https://dog.ceo/api/breed/${text}/images/random`} else {url = 'https://dog.ceo/api/breeds/image/random'}
             await axios.get(url, { responseType: 'arraybuffer' }).then((data) => fetchedurl = JSON.parse(data.data))
