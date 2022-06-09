@@ -1,13 +1,14 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { REST } = require('@discordjs/rest');
-const { token, clientId, ownerId } = require('../config.json');
 const fs = require('fs');
+let config = process.env
 const { MessageEmbed } = require('discord.js');
 // noinspection JSClosureCompilerSyntax
-const rest = new REST().setToken(token);
+const rest = new REST().setToken(config.TOKEN);
 const { Routes } = require('discord-api-types/v9');
 const { Modal, TextInputComponent, showModal } = require('discord-modals') // Now we extract the showModal method
 //const clone = require('git-clone');
+const clone = require('git-clone');
 
 const embedEditModal = new Modal() // We create a Modal
 	.setCustomId('embedEditModal')
@@ -147,7 +148,7 @@ module.exports = {
 				.addStringOption(option => option.setName('guildid').setDescription('Enter the server ID').setRequired(true))
 				.addBooleanOption(option => option.setName('wipe').setDescription('Select whether to delete all slash commands').setRequired(true))),
 	async execute(interaction) {
-		if (String(interaction.member.user.id) !== String(ownerId)) return await interaction.reply({content: "You are not authorized to do this.", ephemeral: true})
+		if (String(interaction.member.user.id) !== String(config.OWNER_ID)) return await interaction.reply({content: "You are not authorized to run133 this.", ephemeral: true})
 		if (interaction.options.getSubcommand() === 'update') { 
 
         }
@@ -168,7 +169,7 @@ module.exports = {
 				let cleaned = await clean(evaled);
 		  
 				// Reply in the channel with our result
-				cleaned = cleaned.split(token).join('[REDACTED]');
+				cleaned = cleaned.split(config.TOKEN).join('[REDACTED]');
 				const embed = new MessageEmbed()
 					.setAuthor({name: 'javascript eval', iconURL: 'https://autumncord.xyz/assets/images/javascript.png'})
 					.setDescription(`javascript eval status: \`success\`\nslash command input: \n\`\`\`js\n${args}\n\`\`\`\njavascript eval output:\n\`\`\`js\n${cleaned}\n\`\`\``)
@@ -181,7 +182,7 @@ module.exports = {
 					else await interaction.followUp({embeds: [embed], ephemeral: true});
 				}
 			  } catch (err) {
-				err = String(err).split(token).join('[REDACTED]');
+				err = String(err).split(config.TOKEN).join('[REDACTED]');
 				// Reply in the channel with our error
 				const embed = new MessageEmbed()
 					.setAuthor({name: 'javascript eval', iconURL: 'https://autumncord.xyz/assets/images/javascript.png'})
@@ -211,7 +212,7 @@ module.exports = {
 				if (String(guild.id) === String(number)) {
 					try {
 						await rest.put(
-							Routes.applicationGuildCommands(clientId, guild.id),
+							Routes.applicationGuildCommands(config.CLIENT_ID, guild.id),
 							{ body: commands },
 						);
 						return await interaction.reply({content: `Successfully refreshed ${guild.name}'s slash commands.`, ephemeral: true})
@@ -232,7 +233,7 @@ module.exports = {
 			}
 			try {
 				await rest.put(
-					Routes.applicationCommands(clientId),
+					Routes.applicationCommands(config.CLIENT_ID),
 					{ body: commands },
 				);
 				return await interaction.reply({content: `Successfully refreshed the global slash commands.`, ephemeral: true})

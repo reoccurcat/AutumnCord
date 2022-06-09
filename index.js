@@ -4,7 +4,9 @@
 const fs = require('fs');
 const { Collection, Client, Intents, MessageEmbed } = require('discord.js');
 const discordModals = require('discord-modals')
-const { token, ownerId } = require('./config.json');
+
+require('dotenv').config();
+let config = process.env
 
 // Create a new client instance
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
@@ -55,7 +57,7 @@ client.on('interactionCreate', async interaction => {
 			.setColor('#FF0000')
 		// noinspection JSUnresolvedFunction
 		await interaction.reply({content: "There was an error running this command. The error has been sent to the bot developer.", ephemeral: true});
-		const user = await interaction.client.users.fetch(ownerId)
+		const user = await interaction.client.users.fetch(config.OWNER_ID)
 		await user.send({embeds: [embed]})
 	}
 });
@@ -119,4 +121,4 @@ client.on('modalSubmit', async (modal) => {
 });
 
 // Login to Discord with your client's token
-client.login(token);
+client.login(config.TOKEN);
